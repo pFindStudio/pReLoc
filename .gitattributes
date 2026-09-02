@@ -1,0 +1,8 @@
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+*.mgf filter=lfs diff=lfs merge=lfs -text
+*.ms1 filter=lfs diff=lfs merge=lfs -text
+*.ms2 filter=lfs diff=lfs merge=lfs -text
+*.pf1 filter=lfs diff=lfs merge=lfs -text
+*.pf2 filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text

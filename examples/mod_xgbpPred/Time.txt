@@ -1,0 +1,3 @@
+Generate Candidate Peptides:
+full time: 2.842000 s
+process time: 2.815000 s
