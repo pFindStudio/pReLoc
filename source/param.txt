@@ -1,0 +1,92 @@
+[path_info]
+# Input spectrum file, only supports MGF format file input, or input the folder where the MGF spectrum file is located
+isMGFfolder=false
+MGFPath=examples/dataMGF.mgf
+
+# Input the file to be analyzed, supporting pSite2 custom format and pFind result file
+ispfind=false
+Input=examples/data_input.tsv
+ispfindOpen=false
+
+# Should pSite2 be used for pChem
+ispChem=false
+pChemmodnum=1
+InputSummary=
+
+[score]
+# Scoring backend: XGBoost (default) or CL
+model=XGBoost
+# CL settings; ignored by XGBoost. Paths are relative to the application folder.
+clDevice=auto
+clBatchSize=8
+clModelPath=best_model.pth
+clEsmPath=esm2_t33_650M_UR50D.pt
+# Should pSite2 be used for site scoring (isSite) or modification site localization (isMod)
+isSite=false
+isMod=true
+
+
+[pPred]
+# Should pPred deep learning features be used to assist pSite2 scoring
+# Please note that only pFind result files are supported (no pChem or others)
+ispPred=false
+
+# Input pFind result file
+pFindResfp=
+
+# Input the folder containing the raw data for pFind analysis, containing ms1, ms2 or pf1, pf2 format files
+rawfolder=
+
+# Input the location where the fine-tuning model is stored and the model name
+modelfolder=
+
+modelname=demofinetune
+
+# Input mass spectrometer type
+# 0: QE; 1: Astral; 2: QE HF; 3: Lumos; 4: Exploris; 5: Thermo-others; 6: TIMS
+instrument=2
+
+# Input NCE; RT range (minRT_maxRT), unit: minutes; and MS2 parameters (0_nce_nce_nce_minCharge_maxCharge)
+nce=28
+rtparam=0_100
+ms2param=0_28_28_28_1_6
+
+[FLR]
+# Whether to use FLR filtering and FLR filtering threshold
+# Note only for modification site localization (isMod=true)
+# isFLR= 0: not use FLR filtering; 1/2: use FLR filtering;
+# isFLR= 1: mobile modification of amino acids to generate decoy; 2: mobile modification mass to generation decoy
+# Please note that isFLR= 1 or 2 does not support pChem
+isFLR=2
+FLR=0.01
+
+[mods]
+# The types of modifications involved in the file to be analyzed
+# Do not include N-terminal and C-terminal modifications
+# When ispfindOpen=true, this section is overwritten automatically; do not add modification entries manually
+mod1=Carbamidomethyl[C]
+mod2=Oxidation[M]
+mod3=Phospho[S]
+mod4=Phospho[T]
+mod5=Phospho[Y]
+
+[NTerm_mods]
+# The N-terminal modifications involved in the file to be analyzed
+# When ispfindOpen=true, this section is overwritten automatically; do not add modification entries manually
+Nmod1=Acetyl[ProteinN-term]
+
+[CTerm_mods]
+# The C-terminal modifications involved in the file to be analyzed
+# When ispfindOpen=true, this section is overwritten automatically; do not add modification entries manually
+
+
+[scoreModName]
+# Modifications to be located, that must appear in [mods]
+# Note only for modification site localization (isMod=true)
+scoremod1=Phospho[S]
+scoremod2=Phospho[T]
+scoremod3=Phospho[Y]
+
+[output_info]
+# Input pSite2 output folder
+OutputFolderPath=results

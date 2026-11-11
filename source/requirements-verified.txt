@@ -1,0 +1,11 @@
+# Direct dependency versions used for the verified Windows / Python 3.13.11 runs.
+numpy==2.4.3
+pandas==3.0.1
+scipy==1.17.1
+scikit-learn==1.8.0
+joblib==1.5.3
+xgboost==3.2.0
+torch==2.11.0
+fair-esm==2.0.0
+tqdm==4.67.1
+pyinstaller==6.19.0

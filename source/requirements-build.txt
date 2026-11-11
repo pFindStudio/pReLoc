@@ -1,0 +1,2 @@
+-r requirements-cl.txt
+pyinstaller==6.19.0

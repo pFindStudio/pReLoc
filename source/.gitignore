@@ -1,0 +1,8 @@
+/__pycache__/
+/build/
+/dist/
+/results/
+/pReLoc.log
+/esm2_t33_650M_UR50D.pt
+/pPred-MS2RT/pPred_data/*
+!/pPred-MS2RT/pPred_data/mainmodel/
