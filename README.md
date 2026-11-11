@@ -2,22 +2,21 @@
 
 A framework for site-level confidence assessment in proteomics, supporting amino-acid site scoring and modification-site localization with XGBoost or contrastive learning (CL).
 
-This Windows distribution combines both scoring backends in **`pReLoc.exe`**. Select the backend in the parameter file or with `--model`. Some internal names and the site-score column retain the earlier name `pSite2`.
+This Windows distribution combines both scoring backends in **`pReLoc.exe`**. 
 
-This repository provides **compiled standalone software** together with a **small real demonstration dataset** (`examples/data_input.tsv` and `examples/dataMGF.mgf`, 100 peptide-spectrum matches). The application source/build project is not included in this distribution; Python files under `_internal/` are bundled runtime dependencies, not a complete pReLoc source release.
-
+This repository provides **compiled standalone software** together with a **small real demonstration dataset** (`examples/data_input.tsv` and `examples/dataMGF.mgf`, 100 peptide-spectrum matches). 
 ## System requirements and tested versions
 
 ### Operating system and hardware
 
 | Item | Requirement / verified configuration |
 | --- | --- |
-| Operating system | 64-bit Windows. This distribution was tested on **Windows 11 Pro 25H2, build 26200.9711** on 11 November 2026. Other Windows versions, Linux and macOS have not been validated for this package. |
+| Operating system | 64-bit Windows. This distribution was tested on **Windows 11 Pro 25H2, build 26200.9711** on 11 November 2026. |
 | Reference desktop | **Intel Core i7-12700**, 12 cores / 20 logical processors, approximately **64 GB RAM**. This is the machine used for the demo measurements below, not a minimum specification. |
 | CPU/GPU | The ordinary XGBoost and CL demos run on CPU. **No GPU or other non-standard hardware is required for these demos.** The supplied PyTorch build is CPU-only; setting `clDevice=cuda` does not add CUDA support to it. |
 | Memory | The minimum RAM requirement has not been established. CL loads a 650-million-parameter ESM2 model and needs substantially more memory than XGBoost. Use the tested desktop configuration as the reproducibility reference; reduce `clBatchSize` if memory is insufficient. |
 | Storage | Approximately **11.5 GiB** of repository files, plus the separately downloaded **2.43 GiB** ESM2 model for CL (about **13.9 GiB / 14.95 GB** total). Allow about **35 GB free space** for a Git/LFS checkout, its cache, the model, and demo outputs; larger analyses need additional space. |
-| Optional pPred | The separate native pPred runtime includes CUDA 11/cuDNN 8 libraries. Its GPU/driver requirements and CPU fallback have **not been validated in the tests reported here**. The CPU-only CL result must not be interpreted as a hardware guarantee for pPred. |
+| Optional pPred | The separate native pPred runtime includes CUDA 11/cuDNN 8 libraries. |
 
 ### Software dependencies and version numbers
 
@@ -364,8 +363,6 @@ Site-scoring results contain `spec_name`, `seq`, `mod` and `pSite2_score`; multi
 | `FLR` | Estimated FLR in percent, when enabled. |
 
 When a decoy wins the competition, the retained best target has no assigned FLR and does not enter the filtered result. Unique combinations remain in `DirectRes.tsv`; an all-direct input produces a header-only main result. XGBoost and CL values are not calibrated to the same score scale.
-
-The generated **`paramtmp.txt`** and native temporary parameter copies are removed when the run finishes, including error exits. The user's input parameter file is retained. Files supplied by the user are not treated as disposable generated parameters merely because their name is `paramtmp.txt`.
 
 ## Troubleshooting
 
