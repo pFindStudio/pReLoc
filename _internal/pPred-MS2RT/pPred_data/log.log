@@ -1,0 +1,394 @@
+[pPred] (0:9) predicting RT... 100.0%                 
+[pPred] (0:0) data size: 1450, 5800
+[pPred] (0:37) Predicting MS2 100%         
+[pPred] (0:8) predicting RT... 100.0%                 
+[pPred] (0:0) data size: 1450, 5800
+[pPred] (0:39) Predicting MS2 100%         
+[pPred] (0:2) Epoch: 0, Training Loss: 0.058968                   
+[pPred] (0:2) delta_RT(95%, 99%): 0.179967 0.179967
+[pPred] (0:2) Epoch: 0, Validation Loss: 0.009006
+[pPred] (0:3) Epoch: 1, Training Loss: 0.009554                   
+[pPred] (0:3) delta_RT(95%, 99%): 0.077284 0.077284
+[pPred] (0:3) Epoch: 1, Validation Loss: 0.003348
+[pPred] (0:4) Epoch: 2, Training Loss: 0.004680                   
+[pPred] (0:4) delta_RT(95%, 99%): 0.111738 0.111738
+[pPred] (0:4) Epoch: 2, Validation Loss: 0.004420
+[pPred] (0:5) Epoch: 2, Training Loss: 0.004628                   
+[pPred] (0:6) delta_RT(95%, 99%): 0.096242 0.096242
+[pPred] (0:6) Epoch: 2, Validation Loss: 0.002237
+[pPred] (0:7) Epoch: 3, Training Loss: 0.003018                   
+[pPred] (0:7) delta_RT(95%, 99%): 0.123492 0.123492
+[pPred] (0:7) Epoch: 3, Validation Loss: 0.002532
+[pPred] (0:8) Epoch: 3, Training Loss: 0.003098                   
+[pPred] (0:8) delta_RT(95%, 99%): 0.116603 0.116603
+[pPred] (0:8) Epoch: 3, Validation Loss: 0.002189
+[pPred] (0:9) Epoch: 4, Training Loss: 0.002146                   
+[pPred] (0:10) delta_RT(95%, 99%): 0.131280 0.131280
+[pPred] (0:10) Epoch: 4, Validation Loss: 0.002660
+[pPred] (0:11) Epoch: 4, Training Loss: 0.002158                   
+[pPred] (0:11) delta_RT(95%, 99%): 0.127828 0.127828
+[pPred] (0:11) Epoch: 4, Validation Loss: 0.002472
+[pPred] (0:12) Epoch: 4, Training Loss: 0.002195                   
+[pPred] (0:12) delta_RT(95%, 99%): 0.124970 0.124970
+[pPred] (0:12) Epoch: 4, Validation Loss: 0.002322
+[pPred] (0:13) Epoch: 4, Training Loss: 0.002191                   
+[pPred] (0:13) delta_RT(95%, 99%): 0.122633 0.122633
+[pPred] (0:13) Epoch: 4, Validation Loss: 0.002209
+[pPred] (0:15) Epoch: 5, Training Loss: 0.001759                   
+[pPred] (0:15) delta_RT(95%, 99%): 0.126550 0.126550
+[pPred] (0:15) Epoch: 5, Validation Loss: 0.002360
+[pPred] (0:16) Epoch: 5, Training Loss: 0.001769                   
+[pPred] (0:16) delta_RT(95%, 99%): 0.125145 0.125145
+[pPred] (0:16) Epoch: 5, Validation Loss: 0.002275
+[pPred] (0:17) Epoch: 5, Training Loss: 0.001759                   
+[pPred] (0:17) delta_RT(95%, 99%): 0.123996 0.123996
+[pPred] (0:17) Epoch: 5, Validation Loss: 0.002209
+[pPred] (0:19) Epoch: 5, Training Loss: 0.001746                   
+[pPred] (0:19) delta_RT(95%, 99%): 0.123032 0.123032
+[pPred] (0:19) Epoch: 5, Validation Loss: 0.002158
+[pPred] (0:20) Epoch: 6, Training Loss: 0.001469                   
+[pPred] (0:20) delta_RT(95%, 99%): 0.122768 0.122768
+[pPred] (0:20) Epoch: 6, Validation Loss: 0.002184
+[pPred] (0:21) Epoch: 6, Training Loss: 0.001458                   
+[pPred] (0:21) delta_RT(95%, 99%): 0.122226 0.122226
+[pPred] (0:21) Epoch: 6, Validation Loss: 0.002146
+[pPred] (0:23) Epoch: 7, Training Loss: 0.001344                   
+[pPred] (0:23) delta_RT(95%, 99%): 0.121087 0.121087
+[pPred] (0:23) Epoch: 7, Validation Loss: 0.002173
+[pPred] (0:24) Epoch: 7, Training Loss: 0.001319                   
+[pPred] (0:24) delta_RT(95%, 99%): 0.120793 0.120793
+[pPred] (0:24) Epoch: 7, Validation Loss: 0.002136
+[pPred] (0:25) Epoch: 8, Training Loss: 0.001243                   
+[pPred] (0:25) delta_RT(95%, 99%): 0.119229 0.119229
+[pPred] (0:25) Epoch: 8, Validation Loss: 0.002118
+[pPred] (0:27) Epoch: 9, Training Loss: 0.001163                   
+[pPred] (0:27) delta_RT(95%, 99%): 0.117632 0.117632
+[pPred] (0:27) Epoch: 9, Validation Loss: 0.002070
+[pPred] (0:28) Epoch: 10, Training Loss: 0.001054                   
+[pPred] (0:28) delta_RT(95%, 99%): 0.116024 0.116024
+[pPred] (0:28) Epoch: 10, Validation Loss: 0.001994
+[pPred] (0:29) Epoch: 11, Training Loss: 0.000984                   
+[pPred] (0:29) delta_RT(95%, 99%): 0.114449 0.114449
+[pPred] (0:29) Epoch: 11, Validation Loss: 0.001901
+[pPred] (0:31) Epoch: 12, Training Loss: 0.000861                   
+[pPred] (0:31) delta_RT(95%, 99%): 0.112934 0.112934
+[pPred] (0:31) Epoch: 12, Validation Loss: 0.001808
+[pPred] (0:32) Epoch: 13, Training Loss: 0.000755                   
+[pPred] (0:32) delta_RT(95%, 99%): 0.111558 0.111558
+[pPred] (0:32) Epoch: 13, Validation Loss: 0.001740
+[pPred] (0:34) Epoch: 14, Training Loss: 0.000721                   
+[pPred] (0:34) delta_RT(95%, 99%): 0.110135 0.110135
+[pPred] (0:34) Epoch: 14, Validation Loss: 0.001666
+[pPred] (0:35) Epoch: 15, Training Loss: 0.000636                   
+[pPred] (0:35) delta_RT(95%, 99%): 0.108696 0.108696
+[pPred] (0:35) Epoch: 15, Validation Loss: 0.001590
+[pPred] (0:36) Epoch: 16, Training Loss: 0.000549                   
+[pPred] (0:36) delta_RT(95%, 99%): 0.107329 0.107329
+[pPred] (0:36) Epoch: 16, Validation Loss: 0.001528
+[pPred] (0:38) Epoch: 17, Training Loss: 0.000503                   
+[pPred] (0:38) delta_RT(95%, 99%): 0.106050 0.106050
+[pPred] (0:38) Epoch: 17, Validation Loss: 0.001478
+[pPred] (0:39) Epoch: 18, Training Loss: 0.000425                   
+[pPred] (0:39) delta_RT(95%, 99%): 0.104865 0.104865
+[pPred] (0:39) Epoch: 18, Validation Loss: 0.001439
+[pPred] (0:41) Epoch: 19, Training Loss: 0.000395                   
+[pPred] (0:41) delta_RT(95%, 99%): 0.103815 0.103815
+[pPred] (0:41) Epoch: 19, Validation Loss: 0.001409
+[pPred] (0:42) Epoch: 20, Training Loss: 0.000390                   
+[pPred] (0:42) delta_RT(95%, 99%): 0.102876 0.102876
+[pPred] (0:42) Epoch: 20, Validation Loss: 0.001385
+[pPred] (0:43) Epoch: 21, Training Loss: 0.000398                   
+[pPred] (0:44) delta_RT(95%, 99%): 0.102094 0.102094
+[pPred] (0:44) Epoch: 21, Validation Loss: 0.001364
+[pPred] (0:45) Epoch: 22, Training Loss: 0.000373                   
+[pPred] (0:45) delta_RT(95%, 99%): 0.101425 0.101425
+[pPred] (0:45) Epoch: 22, Validation Loss: 0.001346
+[pPred] (0:46) Epoch: 23, Training Loss: 0.000371                   
+[pPred] (0:46) delta_RT(95%, 99%): 0.100844 0.100844
+[pPred] (0:46) Epoch: 23, Validation Loss: 0.001330
+[pPred] (0:48) Epoch: 24, Training Loss: 0.000343                   
+[pPred] (0:48) delta_RT(95%, 99%): 0.100373 0.100373
+[pPred] (0:48) Epoch: 24, Validation Loss: 0.001318
+[pPred] (0:49) Epoch: 25, Training Loss: 0.000330                   
+[pPred] (0:49) delta_RT(95%, 99%): 0.099986 0.099986
+[pPred] (0:49) Epoch: 25, Validation Loss: 0.001309
+[pPred] (0:51) Epoch: 26, Training Loss: 0.000369                   
+[pPred] (0:51) delta_RT(95%, 99%): 0.099681 0.099681
+[pPred] (0:51) Epoch: 26, Validation Loss: 0.001301
+[pPred] (0:52) Epoch: 27, Training Loss: 0.000339                   
+[pPred] (0:52) delta_RT(95%, 99%): 0.099430 0.099430
+[pPred] (0:52) Epoch: 27, Validation Loss: 0.001294
+[pPred] (0:53) Epoch: 28, Training Loss: 0.000334                   
+[pPred] (0:53) delta_RT(95%, 99%): 0.099228 0.099228
+[pPred] (0:53) Epoch: 28, Validation Loss: 0.001287
+[pPred] (0:55) Epoch: 29, Training Loss: 0.000355                   
+[pPred] (0:55) delta_RT(95%, 99%): 0.099080 0.099080
+[pPred] (0:55) Epoch: 29, Validation Loss: 0.001279
+[pPred] (0:55) best RT model (epoch:29) saved: C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\mod_xgbpPred\demofinetune_rt.pt
+[pPred] (0:0) reading data: pPred_data\pFind77.ms2data
+[pPred] (0:0) data size: 18, 3
+[pPred] (0:1) Epoch: 0, Training Loss: 0.001279                      
+[pPred] (0:1) pearsons(match): 0.928585 0.930325 0.942553
+[pPred] (0:1) pearsons(all): 0.954140 0.954899 0.960539
+[pPred] (0:1) Epoch: 0, Validation Loss: 0.00016257
+[pPred] (0:3) Epoch: 1, Training Loss: 0.000865                      
+[pPred] (0:3) pearsons(match): 0.949681 0.951761 0.959585
+[pPred] (0:3) pearsons(all): 0.961952 0.962851 0.969592
+[pPred] (0:3) Epoch: 1, Validation Loss: 0.00012136
+[pPred] (0:4) Epoch: 2, Training Loss: 0.000743                      
+[pPred] (0:4) pearsons(match): 0.963845 0.967476 0.971702
+[pPred] (0:4) pearsons(all): 0.966082 0.966446 0.974558
+[pPred] (0:4) Epoch: 2, Validation Loss: 0.00010356
+[pPred] (0:5) Epoch: 3, Training Loss: 0.000703                      
+[pPred] (0:5) pearsons(match): 0.969413 0.970562 0.975668
+[pPred] (0:5) pearsons(all): 0.967837 0.967934 0.975477
+[pPred] (0:5) Epoch: 3, Validation Loss: 0.00009668
+[pPred] (0:7) Epoch: 4, Training Loss: 0.000703                      
+[pPred] (0:7) pearsons(match): 0.967188 0.968440 0.975146
+[pPred] (0:7) pearsons(all): 0.968917 0.969036 0.974362
+[pPred] (0:7) Epoch: 4, Validation Loss: 0.00009354
+[pPred] (0:8) Epoch: 5, Training Loss: 0.000669                      
+[pPred] (0:8) pearsons(match): 0.964047 0.964285 0.973582
+[pPred] (0:8) pearsons(all): 0.969051 0.970177 0.974751
+[pPred] (0:8) Epoch: 5, Validation Loss: 0.00009122
+[pPred] (0:10) Epoch: 6, Training Loss: 0.000649                      
+[pPred] (0:10) pearsons(match): 0.961176 0.961717 0.971130
+[pPred] (0:10) pearsons(all): 0.968394 0.971407 0.974694
+[pPred] (0:10) Epoch: 6, Validation Loss: 0.00009239
+[pPred] (0:11) Epoch: 6, Training Loss: 0.000628                      
+[pPred] (0:11) pearsons(match): 0.961474 0.962641 0.971263
+[pPred] (0:11) pearsons(all): 0.968470 0.971476 0.974767
+[pPred] (0:11) Epoch: 6, Validation Loss: 0.00009234
+[pPred] (0:12) Epoch: 6, Training Loss: 0.000670                      
+[pPred] (0:12) pearsons(match): 0.962161 0.963532 0.971579
+[pPred] (0:12) pearsons(all): 0.968511 0.971477 0.974953
+[pPred] (0:12) Epoch: 6, Validation Loss: 0.00009292
+[pPred] (0:14) Epoch: 6, Training Loss: 0.000623                      
+[pPred] (0:14) pearsons(match): 0.962373 0.963583 0.971511
+[pPred] (0:14) pearsons(all): 0.968558 0.971640 0.974951
+[pPred] (0:14) Epoch: 6, Validation Loss: 0.00009323
+[pPred] (0:15) Epoch: 7, Training Loss: 0.000588                      
+[pPred] (0:15) pearsons(match): 0.954187 0.955851 0.966040
+[pPred] (0:15) pearsons(all): 0.965385 0.968123 0.973329
+[pPred] (0:15) Epoch: 7, Validation Loss: 0.00010197
+[pPred] (0:16) Epoch: 7, Training Loss: 0.000607                      
+[pPred] (0:17) pearsons(match): 0.956012 0.957370 0.967075
+[pPred] (0:17) pearsons(all): 0.966041 0.968886 0.973735
+[pPred] (0:17) Epoch: 7, Validation Loss: 0.00009945
+[pPred] (0:18) Epoch: 7, Training Loss: 0.000536                      
+[pPred] (0:18) pearsons(match): 0.956778 0.957940 0.967456
+[pPred] (0:18) pearsons(all): 0.966205 0.969140 0.973920
+[pPred] (0:18) Epoch: 7, Validation Loss: 0.00009901
+[pPred] (0:19) Epoch: 7, Training Loss: 0.000595                      
+[pPred] (0:19) pearsons(match): 0.957630 0.958823 0.967987
+[pPred] (0:19) pearsons(all): 0.966593 0.969474 0.974215
+[pPred] (0:19) Epoch: 7, Validation Loss: 0.00009851
+[pPred] (0:20) Epoch: 8, Training Loss: 0.000555                      
+[pPred] (0:21) pearsons(match): 0.951453 0.953626 0.964133
+[pPred] (0:21) pearsons(all): 0.964179 0.966660 0.973324
+[pPred] (0:21) Epoch: 8, Validation Loss: 0.00010467
+[pPred] (0:22) Epoch: 8, Training Loss: 0.000529                      
+[pPred] (0:22) pearsons(match): 0.953236 0.955309 0.965638
+[pPred] (0:22) pearsons(all): 0.964934 0.967478 0.973839
+[pPred] (0:22) Epoch: 8, Validation Loss: 0.00010313
+[pPred] (0:23) Epoch: 8, Training Loss: 0.000566                      
+[pPred] (0:23) pearsons(match): 0.954842 0.956812 0.966625
+[pPred] (0:23) pearsons(all): 0.965612 0.968217 0.974031
+[pPred] (0:23) Epoch: 8, Validation Loss: 0.00010133
+[pPred] (0:25) Epoch: 8, Training Loss: 0.000547                      
+[pPred] (0:25) pearsons(match): 0.955567 0.957402 0.967073
+[pPred] (0:25) pearsons(all): 0.965807 0.968499 0.973911
+[pPred] (0:25) Epoch: 8, Validation Loss: 0.00010119
+[pPred] (0:25) Early stopping on epoch 8
+[pPred] (0:25) best MS2 model (epoch:5) saved: C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\mod_xgbpPred\demofinetune_ms2.pt
+[pPred] (0:3) predicting RT... 100.0%                 
+[pPred] (0:0) data size: 1450, 5800
+[pPred] (0:11) Predicting MS2 100%         
+[pPred] (0:3) predicting RT... 100.0%                 
+[pPred] (0:0) data size: 1450, 5800
+[pPred] (0:11) Predicting MS2 100%         
+[pPred] (0:8) predicting RT... 100.0%                 
+[pPred] (0:0) data size: 1450, 5800
+[pPred] (0:28) Predicting MS2 100%         
+[pPred] (0:7) predicting RT... 100.0%                 
+[pPred] (0:0) data size: 1450, 5800
+[pPred] (0:28) Predicting MS2 100%         
+[pPred] (0:1) Epoch: 0, Training Loss: 0.060252                   
+[pPred] (0:1) delta_RT(95%, 99%): 0.166477 0.166477
+[pPred] (0:1) Epoch: 0, Validation Loss: 0.005874
+[pPred] (0:3) Epoch: 1, Training Loss: 0.009921                   
+[pPred] (0:3) delta_RT(95%, 99%): 0.140567 0.140567
+[pPred] (0:3) Epoch: 1, Validation Loss: 0.005923
+[pPred] (0:4) Epoch: 1, Training Loss: 0.009910                   
+[pPred] (0:4) delta_RT(95%, 99%): 0.131396 0.131396
+[pPred] (0:4) Epoch: 1, Validation Loss: 0.005845
+[pPred] (0:6) Epoch: 2, Training Loss: 0.004242                   
+[pPred] (0:6) delta_RT(95%, 99%): 0.164114 0.164114
+[pPred] (0:6) Epoch: 2, Validation Loss: 0.010021
+[pPred] (0:7) Epoch: 2, Training Loss: 0.004296                   
+[pPred] (0:7) delta_RT(95%, 99%): 0.137649 0.137649
+[pPred] (0:7) Epoch: 2, Validation Loss: 0.005765
+[pPred] (0:9) Epoch: 3, Training Loss: 0.003430                   
+[pPred] (0:9) delta_RT(95%, 99%): 0.132029 0.132029
+[pPred] (0:9) Epoch: 3, Validation Loss: 0.005053
+[pPred] (0:10) Epoch: 4, Training Loss: 0.002643                   
+[pPred] (0:11) delta_RT(95%, 99%): 0.123877 0.123877
+[pPred] (0:11) Epoch: 4, Validation Loss: 0.004190
+[pPred] (0:12) Epoch: 5, Training Loss: 0.002370                   
+[pPred] (0:12) delta_RT(95%, 99%): 0.115880 0.115880
+[pPred] (0:12) Epoch: 5, Validation Loss: 0.003489
+[pPred] (0:13) Epoch: 6, Training Loss: 0.002196                   
+[pPred] (0:13) delta_RT(95%, 99%): 0.108649 0.108649
+[pPred] (0:13) Epoch: 6, Validation Loss: 0.002948
+[pPred] (0:15) Epoch: 7, Training Loss: 0.002049                   
+[pPred] (0:15) delta_RT(95%, 99%): 0.102398 0.102398
+[pPred] (0:15) Epoch: 7, Validation Loss: 0.002528
+[pPred] (0:16) Epoch: 8, Training Loss: 0.001981                   
+[pPred] (0:17) delta_RT(95%, 99%): 0.096453 0.096453
+[pPred] (0:17) Epoch: 8, Validation Loss: 0.002201
+[pPred] (0:18) Epoch: 9, Training Loss: 0.001788                   
+[pPred] (0:18) delta_RT(95%, 99%): 0.090535 0.090535
+[pPred] (0:18) Epoch: 9, Validation Loss: 0.001941
+[pPred] (0:19) Epoch: 10, Training Loss: 0.001601                   
+[pPred] (0:19) delta_RT(95%, 99%): 0.084473 0.084473
+[pPred] (0:19) Epoch: 10, Validation Loss: 0.001741
+[pPred] (0:21) Epoch: 11, Training Loss: 0.001395                   
+[pPred] (0:21) delta_RT(95%, 99%): 0.078076 0.078076
+[pPred] (0:21) Epoch: 11, Validation Loss: 0.001586
+[pPred] (0:22) Epoch: 12, Training Loss: 0.001286                   
+[pPred] (0:22) delta_RT(95%, 99%): 0.071282 0.071282
+[pPred] (0:22) Epoch: 12, Validation Loss: 0.001442
+[pPred] (0:24) Epoch: 13, Training Loss: 0.001288                   
+[pPred] (0:24) delta_RT(95%, 99%): 0.064525 0.064525
+[pPred] (0:24) Epoch: 13, Validation Loss: 0.001239
+[pPred] (0:25) Epoch: 14, Training Loss: 0.001106                   
+[pPred] (0:25) delta_RT(95%, 99%): 0.057776 0.057776
+[pPred] (0:25) Epoch: 14, Validation Loss: 0.001040
+[pPred] (0:27) Epoch: 15, Training Loss: 0.001009                   
+[pPred] (0:27) delta_RT(95%, 99%): 0.051182 0.051182
+[pPred] (0:27) Epoch: 15, Validation Loss: 0.000891
+[pPred] (0:28) Epoch: 16, Training Loss: 0.000820                   
+[pPred] (0:29) delta_RT(95%, 99%): 0.050177 0.050177
+[pPred] (0:29) Epoch: 16, Validation Loss: 0.000771
+[pPred] (0:30) Epoch: 17, Training Loss: 0.000761                   
+[pPred] (0:30) delta_RT(95%, 99%): 0.049612 0.049612
+[pPred] (0:30) Epoch: 17, Validation Loss: 0.000688
+[pPred] (0:31) Epoch: 18, Training Loss: 0.000631                   
+[pPred] (0:32) delta_RT(95%, 99%): 0.049100 0.049100
+[pPred] (0:32) Epoch: 18, Validation Loss: 0.000610
+[pPred] (0:33) Epoch: 19, Training Loss: 0.000592                   
+[pPred] (0:33) delta_RT(95%, 99%): 0.048474 0.048474
+[pPred] (0:33) Epoch: 19, Validation Loss: 0.000524
+[pPred] (0:35) Epoch: 20, Training Loss: 0.000543                   
+[pPred] (0:35) delta_RT(95%, 99%): 0.047801 0.047801
+[pPred] (0:35) Epoch: 20, Validation Loss: 0.000449
+[pPred] (0:36) Epoch: 21, Training Loss: 0.000473                   
+[pPred] (0:36) delta_RT(95%, 99%): 0.047132 0.047132
+[pPred] (0:36) Epoch: 21, Validation Loss: 0.000402
+[pPred] (0:38) Epoch: 22, Training Loss: 0.000481                   
+[pPred] (0:38) delta_RT(95%, 99%): 0.046498 0.046498
+[pPred] (0:38) Epoch: 22, Validation Loss: 0.000375
+[pPred] (0:39) Epoch: 23, Training Loss: 0.000433                   
+[pPred] (0:40) delta_RT(95%, 99%): 0.045910 0.045910
+[pPred] (0:40) Epoch: 23, Validation Loss: 0.000361
+[pPred] (0:41) Epoch: 24, Training Loss: 0.000416                   
+[pPred] (0:41) delta_RT(95%, 99%): 0.045183 0.045183
+[pPred] (0:41) Epoch: 24, Validation Loss: 0.000353
+[pPred] (0:43) Epoch: 25, Training Loss: 0.000429                   
+[pPred] (0:43) delta_RT(95%, 99%): 0.044364 0.044364
+[pPred] (0:43) Epoch: 25, Validation Loss: 0.000348
+[pPred] (0:44) Epoch: 26, Training Loss: 0.000425                   
+[pPred] (0:44) delta_RT(95%, 99%): 0.043380 0.043380
+[pPred] (0:44) Epoch: 26, Validation Loss: 0.000345
+[pPred] (0:46) Epoch: 27, Training Loss: 0.000424                   
+[pPred] (0:46) delta_RT(95%, 99%): 0.042308 0.042308
+[pPred] (0:46) Epoch: 27, Validation Loss: 0.000342
+[pPred] (0:47) Epoch: 28, Training Loss: 0.000406                   
+[pPred] (0:48) delta_RT(95%, 99%): 0.041124 0.041124
+[pPred] (0:48) Epoch: 28, Validation Loss: 0.000337
+[pPred] (0:49) Epoch: 29, Training Loss: 0.000442                   
+[pPred] (0:49) delta_RT(95%, 99%): 0.039843 0.039843
+[pPred] (0:49) Epoch: 29, Validation Loss: 0.000329
+[pPred] (0:49) best RT model (epoch:29) saved: C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\mod_xgbpPred\demofinetune_rt.pt
+[pPred] (0:0) reading data: pPred_data\pFind77.ms2data
+[pPred] (0:0) data size: 18, 3
+[pPred] (0:1) Epoch: 0, Training Loss: 0.001277                      
+[pPred] (0:2) pearsons(match): 0.928610 0.930338 0.942607
+[pPred] (0:2) pearsons(all): 0.954065 0.954900 0.960551
+[pPred] (0:2) Epoch: 0, Validation Loss: 0.00016251
+[pPred] (0:3) Epoch: 1, Training Loss: 0.000863                      
+[pPred] (0:3) pearsons(match): 0.949976 0.952111 0.959839
+[pPred] (0:3) pearsons(all): 0.961954 0.962843 0.969626
+[pPred] (0:3) Epoch: 1, Validation Loss: 0.00012101
+[pPred] (0:4) Epoch: 2, Training Loss: 0.000741                      
+[pPred] (0:5) pearsons(match): 0.963952 0.967553 0.971804
+[pPred] (0:5) pearsons(all): 0.966174 0.966536 0.974633
+[pPred] (0:5) Epoch: 2, Validation Loss: 0.00010341
+[pPred] (0:6) Epoch: 3, Training Loss: 0.000704                      
+[pPred] (0:6) pearsons(match): 0.969400 0.970664 0.975609
+[pPred] (0:6) pearsons(all): 0.967966 0.968071 0.975486
+[pPred] (0:6) Epoch: 3, Validation Loss: 0.00009664
+[pPred] (0:7) Epoch: 4, Training Loss: 0.000700                      
+[pPred] (0:8) pearsons(match): 0.967204 0.968386 0.975104
+[pPred] (0:8) pearsons(all): 0.969073 0.969208 0.974388
+[pPred] (0:8) Epoch: 4, Validation Loss: 0.00009346
+[pPred] (0:9) Epoch: 5, Training Loss: 0.000669                      
+[pPred] (0:9) pearsons(match): 0.964050 0.964202 0.973518
+[pPred] (0:9) pearsons(all): 0.969025 0.970359 0.974756
+[pPred] (0:9) Epoch: 5, Validation Loss: 0.00009116
+[pPred] (0:10) Epoch: 6, Training Loss: 0.000648                      
+[pPred] (0:11) pearsons(match): 0.961078 0.961691 0.971043
+[pPred] (0:11) pearsons(all): 0.968345 0.971360 0.974670
+[pPred] (0:11) Epoch: 6, Validation Loss: 0.00009238
+[pPred] (0:12) Epoch: 6, Training Loss: 0.000629                      
+[pPred] (0:12) pearsons(match): 0.961376 0.962608 0.971181
+[pPred] (0:12) pearsons(all): 0.968419 0.971657 0.974730
+[pPred] (0:12) Epoch: 6, Validation Loss: 0.00009235
+[pPred] (0:13) Epoch: 6, Training Loss: 0.000668                      
+[pPred] (0:14) pearsons(match): 0.962061 0.963485 0.971486
+[pPred] (0:14) pearsons(all): 0.968451 0.971646 0.974911
+[pPred] (0:14) Epoch: 6, Validation Loss: 0.00009294
+[pPred] (0:15) Epoch: 6, Training Loss: 0.000620                      
+[pPred] (0:15) pearsons(match): 0.962301 0.963446 0.971436
+[pPred] (0:15) pearsons(all): 0.968506 0.971806 0.974920
+[pPred] (0:15) Epoch: 6, Validation Loss: 0.00009323
+[pPred] (0:17) Epoch: 7, Training Loss: 0.000590                      
+[pPred] (0:17) pearsons(match): 0.954097 0.955752 0.965971
+[pPred] (0:17) pearsons(all): 0.965322 0.968057 0.973389
+[pPred] (0:17) Epoch: 7, Validation Loss: 0.00010200
+[pPred] (0:19) Epoch: 7, Training Loss: 0.000606                      
+[pPred] (0:19) pearsons(match): 0.955913 0.957262 0.967024
+[pPred] (0:19) pearsons(all): 0.965975 0.968818 0.973707
+[pPred] (0:19) Epoch: 7, Validation Loss: 0.00009949
+[pPred] (0:21) Epoch: 7, Training Loss: 0.000536                      
+[pPred] (0:21) pearsons(match): 0.956689 0.957846 0.967417
+[pPred] (0:21) pearsons(all): 0.966150 0.969079 0.973881
+[pPred] (0:21) Epoch: 7, Validation Loss: 0.00009902
+[pPred] (0:23) Epoch: 7, Training Loss: 0.000593                      
+[pPred] (0:23) pearsons(match): 0.957546 0.958740 0.967953
+[pPred] (0:23) pearsons(all): 0.966541 0.969418 0.974179
+[pPred] (0:23) Epoch: 7, Validation Loss: 0.00009851
+[pPred] (0:25) Epoch: 8, Training Loss: 0.000555                      
+[pPred] (0:25) pearsons(match): 0.951426 0.953569 0.964126
+[pPred] (0:25) pearsons(all): 0.964140 0.966628 0.973309
+[pPred] (0:25) Epoch: 8, Validation Loss: 0.00010466
+[pPred] (0:26) Epoch: 8, Training Loss: 0.000531                      
+[pPred] (0:27) pearsons(match): 0.953208 0.955266 0.965549
+[pPred] (0:27) pearsons(all): 0.964903 0.967447 0.973849
+[pPred] (0:27) Epoch: 8, Validation Loss: 0.00010311
+[pPred] (0:28) Epoch: 8, Training Loss: 0.000569                      
+[pPred] (0:29) pearsons(match): 0.954814 0.956779 0.966657
+[pPred] (0:29) pearsons(all): 0.965587 0.968188 0.974180
+[pPred] (0:29) Epoch: 8, Validation Loss: 0.00010132
+[pPred] (0:30) Epoch: 8, Training Loss: 0.000546                      
+[pPred] (0:30) pearsons(match): 0.955553 0.957386 0.967122
+[pPred] (0:30) pearsons(all): 0.965787 0.968475 0.974062
+[pPred] (0:30) Epoch: 8, Validation Loss: 0.00010116
+[pPred] (0:30) Early stopping on epoch 8
+[pPred] (0:30) best MS2 model (epoch:5) saved: C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\mod_xgbpPred\demofinetune_ms2.pt
+[pPred] (0:3) predicting RT... 100.0%                 
+[pPred] (0:0) data size: 1450, 5800
+[pPred] (0:13) Predicting MS2 100%         
+[pPred] (0:3) predicting RT... 100.0%                 
+[pPred] (0:0) data size: 1450, 5800
+[pPred] (0:14) Predicting MS2 100%         

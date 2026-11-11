@@ -1,148 +1,279 @@
 # pReLoc
 
-A framework for site-level confidence assessment in proteomics, with workflows for amino-acid site scoring and modification-site localization.
+A framework for site-level confidence assessment in proteomics, supporting amino-acid site scoring and modification-site localization with XGBoost or contrastive learning (CL).
 
-This repository distributes Windows executables, example inputs and results, and the optional pPred prediction package. Some configuration comments, messages, and output columns retain the earlier name **pSite2**.
+This Windows distribution combines both scoring backends in **`pReLoc.exe`**. Select the backend in the parameter file or with `--model`. Some internal names and the site-score column retain the earlier name `pSite2`.
 
-## Download
+This repository provides **compiled standalone software** together with a **small real demonstration dataset** (`examples/data_input.tsv` and `examples/dataMGF.mgf`, 100 peptide-spectrum matches). The application source/build project is not included in this distribution; Python files under `_internal/` are bundled runtime dependencies, not a complete pReLoc source release.
 
-Install Git and [Git LFS](https://git-lfs.com/), then run the following in PowerShell:
+## System requirements and tested versions
 
-```powershell
-git lfs install
-git clone https://github.com/pFindStudio/pReLoc.git
-cd pReLoc
-git lfs pull
+### Operating system and hardware
+
+| Item | Requirement / verified configuration |
+| --- | --- |
+| Operating system | 64-bit Windows. This distribution was tested on **Windows 11 Pro 25H2, build 26200.9711** on 11 November 2026. Other Windows versions, Linux and macOS have not been validated for this package. |
+| Reference desktop | **Intel Core i7-12700**, 12 cores / 20 logical processors, approximately **64 GB RAM**. This is the machine used for the demo measurements below, not a minimum specification. |
+| CPU/GPU | The ordinary XGBoost and CL demos run on CPU. **No GPU or other non-standard hardware is required for these demos.** The supplied PyTorch build is CPU-only; setting `clDevice=cuda` does not add CUDA support to it. |
+| Memory | The minimum RAM requirement has not been established. CL loads a 650-million-parameter ESM2 model and needs substantially more memory than XGBoost. Use the tested desktop configuration as the reproducibility reference; reduce `clBatchSize` if memory is insufficient. |
+| Storage | Approximately **11.5 GiB** of repository files, plus the separately downloaded **2.43 GiB** ESM2 model for CL (about **13.9 GiB / 14.95 GB** total). Allow about **35 GB free space** for a Git/LFS checkout, its cache, the model, and demo outputs; larger analyses need additional space. |
+| Optional pPred | The separate native pPred runtime includes CUDA 11/cuDNN 8 libraries. Its GPU/driver requirements and CPU fallback have **not been validated in the tests reported here**. The CPU-only CL result must not be interpreted as a hardware guarantee for pPred. |
+
+### Software dependencies and version numbers
+
+The executable includes its Windows runtime: **no separate Python environment, `pip install`, compiler, or CUDA toolkit installation is needed for the ordinary XGBoost/CL demos**. XGBoost's models are included. **CL additionally requires the ESM2 model download described below.** Keep the entire `_internal/` directory. Git and Git LFS are needed for the repository download procedure below, rather than for executing an already downloaded copy.
+
+Versions were read from the packaged runtime and its distribution metadata, not from an unrelated Python environment on the test machine:
+
+| Bundled runtime / analysis dependency | Version |
+| --- | --- |
+| CPython | 3.13.11 (64-bit) |
+| NumPy | 2.4.3 |
+| pandas | 3.0.1 |
+| SciPy | 1.17.1 |
+| scikit-learn | 1.8.0 |
+| XGBoost | 3.2.0 |
+| PyTorch / torchvision | 2.11.0+cpu / 0.26.0+cpu |
+| fair-esm | 2.0.0 |
+| Transformers / tokenizers | 4.48.1 / 0.21.4 |
+| huggingface-hub / safetensors | 0.36.2 / 0.7.0 |
+| Matplotlib / Pillow | 3.10.8 / 12.3.0 |
+| NetworkX / SymPy / mpmath | 3.6.1 / 1.14.0 / 1.3.0 |
+| joblib / threadpoolctl | 1.5.3 / 3.6.0 |
+| python-dateutil | 2.9.0.post0 |
+
+Additional bundled distributions whose metadata is retained include:
+
+| Dependency | Version | Dependency | Version |
+| --- | --- | --- | --- |
+| attrs | 26.1.0 | cryptography | 46.0.3 |
+| filelock | 3.25.2 | Jinja2 | 3.1.6 |
+| MarkupSafe | 3.0.3 | packaging | 25.0 |
+| prompt-toolkit | 3.0.52 | pydantic | 2.12.4 |
+| PyYAML | 6.0.3 | regex | 2026.4.4 |
+| requests | 2.32.5 | rich | 14.2.0 |
+| sentencepiece | 0.2.1 | tqdm | 4.67.1 |
+| certifi | 2025.11.12 | urllib3 | 2.6.1 |
+| charset-normalizer | 3.4.4 | lxml | 6.1.3 |
+
+Native dependencies are also supplied with the package, including the Microsoft C/C++ runtime (root `msvcp140.dll` / `vcruntime140.dll`: **14.44.35208.0**), native candidate-generation executables, pFindSDK, and the separate pPred runtime. The pPred CUDA runtime DLL reports file version `6,14,11,11080`, and its cuDNN DLL reports `6,14,11,6050` (Windows file-version identifiers). Some native components do not expose a release version; use the exact bundled files rather than substituting system libraries. Their complete file/version inventory is recorded in [BUNDLED_DEPENDENCIES.tsv](BUNDLED_DEPENDENCIES.tsv), including explicit `not reported` entries where version metadata is absent. This inventory also records the packaged Python distributions; it is not a list of packages to install manually.
+
+The demo validation covers this exact package, not every possible combination of the dependency versions above. The application does not declare a semantic release version. The tested `pReLoc.exe` SHA-256 is:
+
+```text
+708dc35c675a7b19138db955e0d16bafce7e35844d21621cf1f97cd5b8d4c176
 ```
 
-The executables, model weights, and large spectrum files are stored with Git LFS. A file containing `version https://git-lfs.github.com/spec/v1` is a pointer, not the actual executable or data; run `git lfs pull` to retrieve its contents. Access to the repository is required if it is private.
+## Installation guide
 
-The full distribution contains approximately **9.5 GiB** of files. Allow additional disk space for the Git LFS cache, executable extraction, and analysis outputs.
+1. Install Git for Windows and [Git LFS](https://git-lfs.com/) if needed. The repository preparation used **Git 2.53.0.windows.2** and **Git LFS 3.7.1**; these are recorded tool versions, not minimum required versions.
+2. In PowerShell, download the repository files:
+
+   ```powershell
+   git lfs install
+   git clone https://github.com/pFindStudio/pReLoc.git
+   cd pReLoc
+   git lfs pull
+   git lfs fsck
+   ```
+
+3. Keep `pReLoc.exe`, `_internal/`, and `examples/` together. Use a writable installation directory because the application and optional pPred tools create working/log files. No installer or compilation step follows the download.
+4. Verify the executable starts:
+
+   ```powershell
+   .\pReLoc.exe --help
+   ```
+
+Large repository assets are stored with Git LFS. An executable or model that contains `version https://git-lfs.github.com/spec/v1` is only a pointer: complete `git lfs pull` before running. Do not assume a source ZIP contains the actual LFS objects. The ESM2 model exceeds this repository's per-file LFS limit and is intentionally excluded from Git; **`git lfs pull` does not download it**. Follow the additional step below before running CL.
+
+### Download the ESM2 model for CL
+
+Download the **ESM-2, 33-layer, 650-million-parameter UR50D** checkpoint from the [official Meta/FAIR ESM model list](https://github.com/facebookresearch/esm#available-models). Use this exact checkpoint; other ESM2 sizes and Hugging Face `.bin`/`.safetensors` exports are not drop-in replacements for this package.
+
+| Item | Required value |
+| --- | --- |
+| File to download | **`esm2_t33_650M_UR50D.pt`** |
+| Official direct download | [Download esm2_t33_650M_UR50D.pt](https://dl.fbaipublicfiles.com/fair-esm/models/esm2_t33_650M_UR50D.pt) |
+| Destination | **`<pReLoc installation folder>\_internal\esm2_t33_650M_UR50D.pt`** |
+| Example destination | `C:\tools\pReLoc\_internal\esm2_t33_650M_UR50D.pt` |
+| Exact file size | **2,604,537,549 bytes** (approximately 2.43 GiB) |
+| SHA-256 of the checkpoint used in the demo tests | `ea9d0522b335a8778dea6535a65301f10208dece28cd5865482b0b1fc446168c` |
+
+Open PowerShell in the folder containing `pReLoc.exe` and download the file directly into `_internal/`:
+
+```powershell
+curl.exe --fail --location --retry 3 --output ".\_internal\esm2_t33_650M_UR50D.pt" "https://dl.fbaipublicfiles.com/fair-esm/models/esm2_t33_650M_UR50D.pt"
+if ($LASTEXITCODE -ne 0) { throw 'ESM2 download failed; do not run CL yet.' }
+$model = Get-Item -LiteralPath '.\_internal\esm2_t33_650M_UR50D.pt'
+if ($model.Length -ne 2604537549) { throw 'ESM2 file size is incorrect.' }
+$expected = 'ea9d0522b335a8778dea6535a65301f10208dece28cd5865482b0b1fc446168c'
+$actual = (Get-FileHash -LiteralPath $model.FullName -Algorithm SHA256).Hash
+if ($actual -ne $expected) { throw 'ESM2 checksum mismatch; download the official checkpoint again.' }
+```
+
+If the direct download is interrupted or blocked by your network, download the same linked file in a browser or on another machine, copy it to the destination above, and run the size/checksum checks. Do not save an HTML error page or rename a different checkpoint to this filename.
+
+Keep these three files together:
+
+```text
+pReLoc/
+  pReLoc.exe
+  _internal/
+    best_model.pth                               (included)
+    esm2_t33_650M_UR50D-contact-regression.pt      (included)
+    esm2_t33_650M_UR50D.pt                        (download separately)
+```
+
+The small **`esm2_t33_650M_UR50D-contact-regression.pt`** companion is already included in Git LFS. The [ESM local-file loader](https://github.com/facebookresearch/esm/blob/main/esm/pretrained.py) expects it next to the main checkpoint. If it is missing, first run `git lfs pull`; its [official recovery download](https://dl.fbaipublicfiles.com/fair-esm/regression/esm2_t33_650M_UR50D-contact-regression.pt) must also be saved in `_internal/` under that exact filename. Keep the supplied pReLoc-specific `best_model.pth`; it is a different model and must not be replaced by ESM2 weights.
+
+The templates already specify the following. A relative `clEsmPath` resolves inside `_internal/`, so **do not add another `_internal\` prefix** to this setting:
+
+```ini
+[score]
+clModelPath=best_model.pth
+clEsmPath=esm2_t33_650M_UR50D.pt
+```
+
+After this one-time download, CL loads the checkpoint locally and can run offline. The ordinary XGBoost workflow does not require this ESM2 checkpoint.
+
+### Typical installation time
+
+Allow approximately **5–10 minutes for local file preparation after the download** on a desktop comparable to the reference machine. Copying the complete 7,745-file package to a separate local directory took **5 minutes 8 seconds** in the validation setup. This is a measured local copy, not a measured fresh network installation or an installer benchmark.
+
+Network transfer time is additional. For 14.95 GB including the separate ESM2 download, the ideal transfer time is about **20 minutes at a sustained 100 Mbit/s**, or **100 minutes at 20 Mbit/s**, before protocol overhead, GitHub/LFS throttling, antivirus scanning, and disk work. The ESM2 file alone takes about **3.5 minutes at 100 Mbit/s** under ideal conditions. Actual download speeds can differ substantially. Complete the ESM2 download before timing the CL demo; download time is not part of its reported runtime.
 
 ## Package contents
 
 | Path | Purpose |
 | --- | --- |
-| `pReLoc_XGB.exe` | XGBoost scoring executable; supports the optional pPred workflow. |
-| `pReLoc_CL.exe` | CL scoring executable; use with `ispPred=false`. |
-| `examples/data_input.tsv` | Small custom identification table used by the basic examples. |
+| `pReLoc.exe` | Combined XGBoost / CL application. |
+| `_internal/` | Python runtime, included scoring models, native candidate generators and pPred dependencies; also the destination for the separately downloaded ESM2 weights. |
+| `examples/data_input.tsv` | The 100-PSM custom identification example. |
 | `examples/dataMGF.mgf` | Matching spectra for the basic examples. |
-| `examples/pReLocparam_*.txt` | Editable parameter templates. |
-| `examples/mod_*`, `examples/site_*` | Example outputs and, for the pPred example, supporting data/models. |
-| `examples/pChem/pChem_preparedata/` | pChem summary, pFind results, and MGF input. |
-| `pPred-20241111/` | Optional prediction executables, DLLs, model weights, and working data. |
+| `examples/pReLocparam_*.txt` | Editable workflow parameter files. |
+| `examples/mod_*`, `examples/site_*` | Example output folders; the pPred folder also contains its input data and fine-tuned models. |
+| `examples/pChem/pChem_preparedata/` | pChem summary, pFind identification table and spectra. |
+| `USAGE.txt` | Short command reference. |
 
-Use Windows for the supplied `.exe` programs. No source-build or Linux/macOS execution workflow is provided in this distribution. Keep the pPred directory and its bundled dependencies together when using pPred.
+Use 64-bit Windows and keep the complete application directory, including `_internal/`, together. A separate Python installation is not required. This packaged CL runtime uses CPU PyTorch and reads its ESM2 weights locally. Allow several minutes for a complete CL example on CPU, plus disk space for analysis results.
 
-## Quick start: modification localization with XGBoost
+## Demo: modification localization
 
-This example uses the small bundled dataset, without pPred.
+The small real dataset is `examples/data_input.tsv` (100 identifications) with matching `examples/dataMGF.mgf` spectra. The following setup prepares both demos and redirects their outputs away from the supplied reference results. Open PowerShell in this application's root directory and run:
 
-1. Open PowerShell in the repository root. Copy the template and create an output directory:
+```powershell
+$root = (Get-Location).Path
+$originalRoot = 'C:\Users\Jiaxiang\Desktop\pReLoc_all'
+foreach ($backend in @('xgb', 'cl')) {
+    $out = Join-Path $root "results\demo_$backend"
+    New-Item -ItemType Directory -Force $out | Out-Null
+    $text = Get-Content ".\examples\pReLocparam_mod_$backend.txt" -Raw
+    $text = $text.Replace($originalRoot, $root)
+    $text = [regex]::Replace($text, '(?m)^OutputFolderPath=[^\r\n]*', "OutputFolderPath=$out")
+    $text = $text.Replace('clDevice=auto', 'clDevice=cpu')
+    $config = Join-Path $root "examples\demo_mod_$backend.txt"
+    [IO.File]::WriteAllText($config, $text, [Text.UTF8Encoding]::new($false))
+}
+```
+
+Run the XGBoost demo:
+
+```powershell
+.\pReLoc.exe ".\examples\demo_mod_xgb.txt"
+```
+
+For CL, first complete **Download the ESM2 model for CL** above, then run:
+
+```powershell
+.\pReLoc.exe ".\examples\demo_mod_cl.txt"
+```
+
+The original templates contain absolute paths from the packaging machine. The preparation commands above replace that prefix with your checkout path and create new output directories. If you edit parameters manually, update every enabled input/model path and `OutputFolderPath` yourself. Re-running a configuration can replace its prior results.
+
+You can also double-click `pReLoc.exe` and enter the full parameter-file path at the prompt. With no command-line parameter file, the application waits for Enter at completion. Command-line runs exit automatically; a failed run returns a nonzero exit code.
+
+```powershell
+.\pReLoc.exe --help
+.\pReLoc.exe "C:\analysis\param.txt" --model CL
+.\pReLoc.exe "C:\analysis\param.txt" --model XGBoost
+```
+
+`--model` overrides the parameter-file backend for that run. Otherwise, `[score] model=XGBoost` or `model=CL` selects it; older files without `model` default to XGBoost.
+
+### Expected demo output and run time
+
+Results are written to `results/demo_xgb/` and `results/demo_cl/`. Expect `pReLocRes.tsv`, `pReLocRes-filtered.tsv`, `DirectRes.tsv`, and `Time.txt`. Both example configurations perform modification localization with `isFLR=2`, `FLR=0.01`, and `ispPred=false`. The CL measurement uses `clDevice=cpu` and `clBatchSize=8`.
+
+The table below reports a single validation run on the reference desktop described in **System requirements**, on 11 November 2026. Wall time includes executable startup; `Full Process` is the program's own timing field and excludes some startup overhead. These are practical expectations for this small dataset, not guaranteed performance for all computers or production datasets.
+
+| Backend | End-to-end wall time | `Full Process` | Main result rows | Rows after 1% FLR filtering | `DirectRes.tsv` rows |
+| --- | --- | --- | --- | --- | --- |
+| XGBoost, CPU | 16.0 s | 4.5 s | 100 | 17 | 0 |
+| CL, CPU, batch size 8 | 137.7 s (about 2 min 18 s) | 135.4 s | 100 | 13 | 0 |
+
+For planning on a similar desktop, allow roughly **15–30 seconds for XGBoost** and **2–5 minutes for CL** for this demo. These ranges are guidance based on the measured run and the packaged example timings, rather than a multi-machine benchmark.
+
+Successful command-line runs return exit code `0`. `Time.txt` must include `Full Process`, and the main result should contain the localization/FLR columns described below. `DirectRes.tsv` is header-only for this demo because no input is assigned to the unique-combination output. Row counts exclude the header; the filtered result can differ between the XGBoost and CL models. Floating-point results may vary across machines.
+
+The demonstration does not validate the optional pPred or pChem workflows. Their templates and usage are included below, but no runtime claim is made for those workflows.
+
+## Instructions for use on your own data
+
+1. Select the appropriate workflow template from the table below and make a working copy. Keep your input data and original parameter file as the reproducibility record.
+2. Export corresponding spectra as MGF and prepare either a pFind identification table or the custom TSV format described in **Prepare your inputs**. Match the spectrum identifiers exactly.
+3. Set `MGFPath`, `isMGFfolder`, `Input`, and `ispfind`; enable pChem/pPred only for a matching workflow. Replace every path used by that workflow with a path on your own machine.
+4. Set the backend (`model=XGBoost` or `model=CL`), one scoring mode, modification definitions, target modifications, and an appropriate FLR setting. Create a separate writable `OutputFolderPath` for each analysis.
+5. Run the configuration and check the exit code:
 
    ```powershell
-   Copy-Item .\examples\pReLocparam_mod_xgb.txt .\examples\my_mod_xgb.txt
-   New-Item -ItemType Directory -Force .\results\mod_xgb
-   notepad .\examples\my_mod_xgb.txt
+   .\pReLoc.exe "C:\analysis\my_parameters.txt"
+   $LASTEXITCODE
    ```
 
-2. Update the paths in the copied file. For example, if the repository is at `C:\tools\pReLoc`, use the following values in their existing sections:
-
-   ```ini
-   [path_info]
-   isMGFfolder=false
-   MGFPath=C:\tools\pReLoc\examples\dataMGF.mgf
-   ispfind=false
-   Input=C:\tools\pReLoc\examples\data_input.tsv
-   ispChem=false
-
-   [score]
-   isSite=false
-   isMod=true
-
-   [pPred]
-   ispPred=false
-
-   [FLR]
-   isFLR=2
-   FLR=0.01
-
-   [output_info]
-   OutputFolderPath=C:\tools\pReLoc\results\mod_xgb
-   ```
-
-   This is an excerpt, not a complete parameter file. Retain the other template settings, including the modification sections. Replace `C:\tools\pReLoc` with your actual installation path. Use absolute paths, and create the output directory before running.
-
-3. Start the executable:
-
-   ```powershell
-   .\pReLoc_XGB.exe
-   ```
-
-4. When the program displays `Input the path of the parameter file:`, enter the full path to your edited file, for example:
-
-   ```text
-   C:\tools\pReLoc\examples\my_mod_xgb.txt
-   ```
-
-   The supplied executables read the parameter path interactively. Passing it as a command-line argument does not replace this prompt. At completion, press Enter when prompted to exit.
-
-5. Inspect `pSiteRes.tsv`, `pSiteRes-filtered.tsv`, and `Time.txt` in your output directory. Check the console for errors as well as checking that the result files were produced.
-
-The XGBoost modification workflow above was checked with the bundled 100-row input and `isFLR=2`, `FLR=0.01`: it produced 100 result rows and 11 filtered rows. These counts describe this example, not a general expected result for other datasets. Floating-point scores can vary across environments.
+6. Check `Time.txt`, inspect the main and filtered result tables, and retain the parameter file with those results. Report the application revision, backend, modifications, and filtering settings with the analysis. The **Read the results** section defines the output fields.
 
 ## Choose a workflow
 
-Copy the corresponding template, update its paths, create a separate output directory, and supply the edited configuration at the executable's prompt.
+Use exactly one of `isSite=true` and `isMod=true`. Update the selected template's paths and create the configured output directory before running.
 
-| Workflow | Executable | Template in `examples/` | Key settings |
-| --- | --- | --- | --- |
-| Modification localization, XGBoost | `pReLoc_XGB.exe` | `pReLocparam_mod_xgb.txt` | `isMod=true`, `isSite=false`, `ispPred=false` |
-| Modification localization, CL | `pReLoc_CL.exe` | `pReLocparam_mod_cl.txt` | `isMod=true`, `isSite=false`, `ispPred=false` |
-| Site scoring, XGBoost | `pReLoc_XGB.exe` | `pReLocparam_site_xgb.txt` | `isSite=true`, `isMod=false` |
-| Site scoring, CL | `pReLoc_CL.exe` | `pReLocparam_site_cl.txt` | `isSite=true`, `isMod=false` |
-| pChem localization, XGBoost | `pReLoc_XGB.exe` | `pReLocparam_pChem.txt` | `ispChem=true`, `ispfind=true`, `isFLR=0` |
-| pChem localization, CL | `pReLoc_CL.exe` | `pReLocparam_pChem_cl.txt` | `ispChem=true`, `ispfind=true`, `isFLR=0` |
-| Localization with pPred features | `pReLoc_XGB.exe` | `pReLocparam_mod_xgbpPred.txt` | `ispPred=true`; additional pFind/raw-data inputs required |
+| Workflow | Template in `examples/` | Important settings |
+| --- | --- | --- |
+| Modification localization, XGBoost | `pReLocparam_mod_xgb.txt` | `model=XGBoost`, `isMod=true`, `ispPred=false`, `isFLR=2` |
+| Modification localization, CL | `pReLocparam_mod_cl.txt` | `model=CL`, `isMod=true`, `ispPred=false`, `isFLR=2` |
+| Site scoring, XGBoost | `pReLocparam_site_xgb.txt` | `model=XGBoost`, `isSite=true`, `isFLR=0` |
+| Site scoring, CL | `pReLocparam_site_cl.txt` | `model=CL`, `isSite=true`, `ispPred=false`, `isFLR=0` |
+| pChem localization, XGBoost | `pReLocparam_pChem.txt` | `model=XGBoost`, `ispChem=true`, `ispfind=true`, `isFLR=0` |
+| pChem localization, CL | `pReLocparam_pChem_cl.txt` | `model=CL`, `ispChem=true`, `ispfind=true`, `isFLR=0` |
+| Localization with pPred features | `pReLocparam_mod_xgbpPred.txt` | `model=XGBoost`, `ispPred=true`, `isFLR=1` |
 
-Enable one scoring mode at a time. Existing example output folders are reference results; use a new output folder for your own runs.
+CL does not support `ispPred=true`. Its settings are `clDevice`, `clBatchSize`, `clModelPath` and `clEsmPath`. The supplied examples use `clDevice=auto` and `clBatchSize=8`. Relative scoring-model paths resolve inside the application resources, so keep the default checkpoint names unless using compatible replacement weights.
 
 ## Prepare your inputs
 
 ### Spectra
 
-Set `MGFPath` to an MGF file with `isMGFfolder=false`, or to a directory containing MGF files with `isMGFfolder=true`. The scoring input uses MGF spectra; the additional pPred raw-data inputs are configured separately.
-
-Spectrum identifiers in the identification table must match the MGF `TITLE` values. For example, identifiers in the bundled data look like:
-
-```text
-20150615_HepG2_Phos_control_70ug_1.10493.10493.2.3.dta
-```
+Set `MGFPath` to an MGF file with `isMGFfolder=false`, or to a folder of MGF files with `isMGFfolder=true`. Spectrum identifiers must match the MGF `TITLE` values. The additional raw-data inputs required for pPred are configured separately.
 
 ### Custom identification table
 
-Use `ispfind=false` and set `Input` to a tab-delimited file. Follow [examples/data_input.tsv](examples/data_input.tsv). The fields read by the custom-input workflow are:
+Use `ispfind=false` and a tab-separated table following `examples/data_input.tsv`:
 
 | Column | Meaning |
 | --- | --- |
 | `spec_name` | Spectrum identifier matching an MGF title. |
 | `seq` | Peptide amino-acid sequence. |
-| `mod` | Modification annotations such as `3,Oxidation[M];6,Phospho[S];`. |
+| `mod` | Modification annotations, for example `3,Oxidation[M];6,Phospho[S];`. |
 | `score` | Original identification score. |
 
-The bundled table also includes `raw_name` and `phospho_count`; retain its structure when adapting the example. Residue positions in the examples are 1-based. A protein N-terminal acetylation is represented as `0,Acetyl[ProteinN-term];`. Match modification names exactly to the configured names.
+The demonstration table includes additional metadata columns that can be retained. Residue positions are 1-based; position 0 can represent an N-terminal modification. Use modification names matching those in the configuration.
 
-For example, peptide `YGMGTSVER` has the modification string `3,Oxidation[M];6,Phospho[S];` in the example input.
+### pFind identification table
 
-### pFind results
+Set `ispfind=true` and point `Input` to a pFind result file, such as `pFind-Filtered.spectra`. Set `MGFPath` to its corresponding spectra. With `ispfindOpen=true`, modification sections are populated from the pFind identifications. Unknown modification masses may be requested and written back to the parameter file.
 
-Set `ispfind=true` and point `Input` to the pFind result file, such as `pFind-Filtered.spectra`. Provide its corresponding MGF spectra through `MGFPath`.
+## Configure modifications and FLR
 
-## Configure modifications and FLR filtering
-
-List residue modifications under `[mods]`, terminal modifications under `[NTerm_mods]` and `[CTerm_mods]`, and modifications to localize under `[scoreModName]`. For ordinary modification localization, the target modifications must also appear in `[mods]`.
-
-For the phosphorylation example:
+List residue modifications under `[mods]`, terminal modifications under `[NTerm_mods]` and `[CTerm_mods]`, and modifications to localize under `[scoreModName]`. For example:
 
 ```ini
 [mods]
@@ -163,88 +294,87 @@ scoremod2=Phospho[T]
 scoremod3=Phospho[Y]
 ```
 
-Some shipped templates repeat the `mod3` key for S/T/Y. The example above uses distinct keys and was used in the quick-start check.
+The `[FLR]` section applies to modification localization:
 
-The `[FLR]` section controls false localization rate filtering for modification localization (`isMod=true`):
-
-| Parameter | Meaning |
+| Setting | Meaning |
 | --- | --- |
 | `isFLR=0` | Disable FLR filtering. |
-| `isFLR=1` | Use the amino-acid relocation decoy strategy described in the template. |
-| `isFLR=2` | Use the modification-mass relocation decoy strategy recommended by the template. |
-| `FLR=0.01` | Set the filtering threshold to 0.01 (1%). |
+| `isFLR=1` | Generate decoys by relocating amino acids. Use this strategy with the supplied pPred workflow. |
+| `isFLR=2` | Generate decoys by relocating modification mass. Used by the ordinary XGBoost / CL localization examples. |
+| `FLR=0.01` | Filter at 1% FLR. The main result's `FLR` column is expressed in percent. |
 
-The supplied pChem workflow does not support `isFLR=1` or `2`; keep `isFLR=0`. The site-scoring templates also use `isFLR=0`.
+Use `isFLR=0` for pChem and site scoring. With pPred, `isFLR=2` generates modifications such as `Phospho[A]` that the native predictor does not support; use `isFLR=1` or disable FLR.
 
 ## pChem workflow
 
-Start from a pChem template and update these paths:
+Start with the appropriate pChem template. Supply the MGF folder, pFind table, pChem summary and number of top summary modifications to consider:
 
 ```ini
 [path_info]
 isMGFfolder=true
-MGFPath=C:\tools\pReLoc\examples\pChem\pChem_preparedata
+MGFPath=C:\analysis\pChem_preparedata
 ispfind=true
-Input=C:\tools\pReLoc\examples\pChem\pChem_preparedata\pFind-Filtered.spectra
+Input=C:\analysis\pChem_preparedata\pFind-Filtered.spectra
 ispChem=true
 pChemmodnum=1
-InputSummary=C:\tools\pReLoc\examples\pChem\pChem_preparedata\pChem.summary
+InputSummary=C:\analysis\pChem_preparedata\pChem.summary
 ```
 
-Keep `ispPred=false` and `isFLR=0`, set your output directory, and run the matching executable. The example uses `pChemmodnum=1`; its summary's first modification is `PFIND_DELTA_334`. Use the summary and identification files from the same pChem analysis when working with your own data.
+Keep `ispPred=false` and `isFLR=0`, select XGBoost or CL, and configure an existing output folder. These lines are an excerpt; retain all other required template sections. Modification conversion is performed in memory and preserves the input `.spectra` file, so the same input can be reused for both backends.
 
 ## Optional pPred features
 
-pPred features are supported by the XGBoost executable. The template states that this workflow requires pFind results and does not support pChem. The main scoring table can still be the custom table used by the shipped example: `pFindResfp` separately supplies the pFind results needed by pPred.
-
-Use `pReLocparam_mod_xgbpPred.txt` and update all of the following:
+Enable pPred only with XGBoost. The main scoring input can be the custom table, while `pFindResfp` separately supplies pFind identifications for prediction.
 
 | Setting in `[pPred]` | Purpose |
 | --- | --- |
 | `ispPred=true` | Enable prediction-derived features. |
-| `pFindResfp` | pFind result file used by pPred. |
-| `rawfolder` | Matching parsed MS data directory (`ms1`/`ms2` or `pf1`/`pf2`, with accompanying index files where present). |
-| `modelfolder` | Directory for the fine-tuned model files. |
-| `modelname` | Model basename; the supplied example uses `demofinetune`. |
-| `instrument` | `0`: QE; `1`: Astral; `2`: QE HF; `3`: Lumos; `4`: Exploris; `5`: Thermo-others; `6`: TIMS. |
-| `nce` | Normalized collision energy; example: `30`. |
-| `rtparam` | Retention-time range in minutes, `minRT_maxRT`; example: `10_130`. |
-| `ms2param` | Format documented by the template: `0_nce_nce_nce_minCharge_maxCharge`; example: `0_30_30_30_2_4`. |
+| `pFindResfp` | Matching pFind identification file. |
+| `rawfolder` | Parsed raw-data folder with matching `ms1`/`ms2` or `pf1`/`pf2` and index files. |
+| `modelfolder` | Directory for fine-tuned RT/MS2 models. |
+| `modelname` | Shared basename of `<modelname>_rt.pt` and `<modelname>_ms2.pt`. |
+| `instrument` | Instrument code; retain the template's documented mapping. |
+| `nce` | Normalized collision energy. |
+| `rtparam` | Retention-time range as `minRT_maxRT`. |
+| `ms2param` | `0_nce_nce_nce_minCharge_maxCharge`. |
 
-The example data and fine-tuned models are under `examples/mod_xgbpPred/`. Run from the repository root so the adjacent `pPred-20241111` directory is available. Ensure the model and output directories exist and are writable. Use model names/directories appropriate to your dataset; the bundled fine-tuned models belong to the supplied example.
+The supplied example's raw-data files and fine-tuned models are in `examples/mod_xgbpPred/`. Use data-specific models for your own analyses. The pPred tools and native libraries are bundled under `_internal/pPred-MS2RT/`; their working files are kept there rather than in the main result folder. The package includes RT/MS2 base models under its `pPred_data/mainmodel/` directory for fine-tuning.
 
-The pPred package includes CUDA 11/cuDNN 8 libraries. A supported GPU/driver matrix and a CPU-only pPred procedure are not specified in the repository. The basic XGBoost quick-start check did not exercise pPred. Also, the checked-in `examples/mod_xgbpPred/pSiteRes.tsv` contains candidate-feature columns, and its `Time.txt` records candidate generation only; treat these as intermediate example artifacts, not evidence of a completed pPred run.
+Prediction-derived features are calculated and combined in memory. `Candidates_pPred.tsv` is not created in the analysis output directory.
 
 ## Read the results
 
-| Output | Contents |
+| File | Contents |
 | --- | --- |
-| `pSiteRes.tsv` | Main scoring/localization result; schema depends on the workflow and completion stage. |
-| `pSiteRes-filtered.tsv` | FLR-filtered localization results when filtering is enabled and completes. |
-| `Time.txt` | Timing records for processing stages. A completed basic run includes `Full Process`. |
+| `pReLocRes.tsv` | Main site-scoring or localization result. |
+| `pReLocRes-filtered.tsv` | FLR-filtered localization results, when enabled. |
+| `DirectRes.tsv` | Unique localization combinations, kept separately from model scoring and FLR. |
+| `Time.txt` | Stage timings; a completed run includes `Full Process`. |
 
-Completed **site-scoring** examples contain `spec_name`, `seq`, `mod`, and `pSite2_score`. The last field is a comma-separated list of site scores in peptide sequence order.
+Site-scoring results contain `spec_name`, `seq`, `mod` and `pSite2_score`; multiple site scores are comma-separated. Localization results include:
 
-Completed **modification-localization** examples contain the following columns:
-
-| Column(s) | Description |
+| Columns | Meaning |
 | --- | --- |
 | `spec_name`, `seq` | Spectrum identifier and peptide sequence. |
-| `scoremodsite_num` | Number of target modification sites. |
+| `scoremodsite_num` | Number of localized target modifications. |
 | `ori_mod`, `mod` | Original and selected modification assignments. |
-| `ori_pepScore`, `pepScore` | Peptide scores for the original and selected assignments. |
-| `ori_pSite2siteScore`, `pSite2siteScore` | Site scores for the original and selected assignments. |
-| `ori_pSite2Score`, `pSite2Score` | Localization scores for the original and selected assignments. |
+| `ori_pepScore`, `pepScore` | Original and selected peptide scores. |
+| `ori_pReLocsiteScore`, `pReLocsiteScore` | Original and selected site scores. |
+| `ori_pReLocScore`, `pReLocScore` | Original and selected localization scores. |
+| `FLR` | Estimated FLR in percent, when enabled. |
 
-Preserve these original column names when parsing results. An individual score is not the same field as the dataset-level `FLR` filtering threshold.
+When a decoy wins the competition, the retained best target has no assigned FLR and does not enter the filtered result. Unique combinations remain in `DirectRes.tsv`; an all-direct input produces a header-only main result. XGBoost and CL values are not calibrated to the same score scale.
+
+The generated **`paramtmp.txt`** and native temporary parameter copies are removed when the run finishes, including error exits. The user's input parameter file is retained. Files supplied by the user are not treated as disposable generated parameters merely because their name is `paramtmp.txt`.
 
 ## Troubleshooting
 
-- **The parameter file or data cannot be found:** replace the original author's absolute paths in the template with your own. Check `Input`, `MGFPath`, `OutputFolderPath`, and all paths for enabled optional workflows.
-- **`AutoCustomInput.tsv` cannot be created:** create the configured output directory first and confirm that it is writable.
-- **The executable is only a few hundred bytes or contains LFS pointer text:** run `git lfs pull` from the clone and resolve any download/authentication error before launching it.
-- **The process waits at startup or exit:** enter the parameter-file path at the first prompt and press Enter at the final prompt. A `--help` argument does not bypass interactive input in this build.
-- **Results are missing or still contain candidate-feature columns:** inspect the console error and `Time.txt`; candidate generation alone does not mean scoring completed. The program may catch an error and still reach its final exit prompt, so an exit code alone is insufficient.
-- **pPred fails to load dependencies or run predictions:** check the complete `pPred-20241111` package, matching pFind/raw-data inputs, model paths, and the reported CUDA/DLL error. Use `ispPred=false` when following the basic non-pPred example.
+- **An input file cannot be found:** update all paths for the enabled workflow, using absolute paths. Create the output directory and check write access.
+- **The program waits at startup or exit:** provide the parameter-file path at the prompt, or pass it as a command-line argument for unattended runs.
+- **A CL checkpoint cannot be found:** download `esm2_t33_650M_UR50D.pt` into `_internal/` using the instructions above. Keep the included contact-regression companion and `best_model.pth`, check file sizes/hashes, and retain the default checkpoint names. `git lfs pull` alone does not fetch the excluded ESM2 checkpoint.
+- **pPred reports unknown modifications:** use `isFLR=1` or `isFLR=0`, and confirm that the configured modifications are supported by its predictor.
+- **pPred reports a DLL or model error:** retain its full bundled dependency directory and check the raw-data and model paths.
+- **Only intermediate candidate features are present:** inspect the error and `Time.txt`; candidate generation alone does not establish successful scoring.
+- **A `paramtmp.txt` left by an older version is present:** the updated package removes known old generated copies and cleans new copies at run completion. Keep your editable input parameters outside these generated-file locations.
 
-For reproducible reports, include the executable used, your parameter file with private paths redacted if necessary, the console error, and a small representative input when opening an [issue](https://github.com/pFindStudio/pReLoc/issues).
+For a reproducible issue report, include the workflow, parameter file with private paths redacted, console error and a small representative input.

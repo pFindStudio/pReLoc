@@ -1,9 +1,9 @@
 Generate Candidate Peptides:
-full time: 2.907000 s
-process time: 2.878000 s
+full time: 3.437000 s
+process time: 3.405000 s
 
 Predict Sites Score:
-full time: 0.5535998344421387 s
-predict time: 0.0025911331176757812 s
+full time: 0.6151156425476074 s
+predict time: 0.002140522003173828 s
 
-Full Process:5.38865852355957 s
+Full Process:12.445952415466309 s

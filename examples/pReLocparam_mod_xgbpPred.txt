@@ -1,18 +1,24 @@
 [path_info]
+ispfindOpen=false
 # Input spectrum file, only supports MGF format file input, or input the folder where the MGF spectrum file is located
 isMGFfolder=false
-MGFPath=C:\Users\Jiaxiang\Desktop\pReLoc\examples\dataMGF.mgf
+MGFPath=C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\dataMGF.mgf
 
 # Input the file to be analyzed, supporting pSite2 custom format and pFind result file
 ispfind=false
-Input=C:\Users\Jiaxiang\Desktop\pReLoc\examples\data_input.tsv
+Input=C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\data_input.tsv
 
 # Should pSite2 be used for pChem
 ispChem=false
 pChemmodnum=1
-InputSummary=D:\pFind_software\pIon\result-try\reporting_summary\pChem.summary
+InputSummary=C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\pChem\pChem_preparedata\pChem.summary
 
 [score]
+model=XGBoost
+clDevice=auto
+clBatchSize=8
+clModelPath=best_model.pth
+clEsmPath=esm2_t33_650M_UR50D.pt
 # Should pSite2 be used for site scoring (isSite) or modification site localization (isMod)
 isSite=false
 isMod=true
@@ -25,13 +31,13 @@ isMod=true
 ispPred=true
 
 # Input pFind result file
-pFindResfp=C:\Users\Jiaxiang\Desktop\pReLoc\examples\mod_xgbpPred\pPred\pFind-Filtered.spectra
+pFindResfp=C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\mod_xgbpPred\pPred\pFind-Filtered.spectra
 
 # Input the folder containing the raw data for pFind analysis, containing ms1, ms2 or pf1, pf2 format files
-rawfolder=C:\Users\Jiaxiang\Desktop\pReLoc\examples\mod_xgbpPred\pPred
+rawfolder=C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\mod_xgbpPred\pPred
 
 # Input the location where the fine-tuning model is stored and the model name
-modelfolder=C:\Users\Jiaxiang\Desktop\pReLoc\examples\mod_xgbpPred
+modelfolder=C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\mod_xgbpPred
 
 modelname=demofinetune
 
@@ -45,13 +51,14 @@ rtparam=10_130
 ms2param=0_30_30_30_2_4
 
 [FLR]
+# pPred uses amino-acid decoys (isFLR=1); mass decoys are unsupported.
 # Whether to use FLR filtering and FLR filtering threshold
 # Note only for modification site localization (isMod=true)
 # isFLR= 0: not use FLR filtering; 1/2: use FLR filtering;
 # isFLR= 1: mobile modification of amino acids to generate decoy; 2: mobile modification mass to generation decoy
-# We recommend isFLR=2
+# We recommend isFLR=1
 # Please note that isFLR= 1 or 2 does not support pChem
-isFLR=2
+isFLR=1
 FLR=0.01
 
 [mods]
@@ -80,4 +87,4 @@ scoremod3=Phospho[Y]
 
 [output_info]
 # Input pSite2 output folder
-OutputFolderPath=C:\Users\Jiaxiang\Desktop\pReLoc\examples\mod_xgbpPred
+OutputFolderPath=C:\Users\Jiaxiang\Desktop\pReLoc_all\examples\mod_xgbpPred

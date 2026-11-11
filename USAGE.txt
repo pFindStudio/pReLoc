@@ -1,0 +1,11 @@
+pReLoc: combined XGBoost and CL Windows application
+
+Run from this directory in PowerShell:
+  .\pReLoc.exe "examples\pReLocparam_mod_xgb.txt"
+  .\pReLoc.exe "examples\pReLocparam_mod_cl.txt"
+  .\pReLoc.exe "C:\analysis\param.txt" --model CL
+
+Keep the entire application directory, including _internal.
+Update absolute parameter paths if moving the package.
+Generated paramtmp.txt files are cleaned up after successful and failed runs.
+See README.md for workflow templates, input formats, FLR, pChem and pPred.

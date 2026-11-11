@@ -1,0 +1,10 @@
+2026-11-11 17:25:26 [ERROR] Running error
+Traceback (most recent call last):
+  File "pSite2.py", line 176, in <module>
+  File "pSite2.py", line 161, in main
+  File "pSite2.py", line 106, in score_results
+  File "mods_score.py", line 241, in modScore_XGB_pPred
+  File "processpPred.py", line 663, in process_pPred
+  File "processpPred.py", line 72, in finetune_pPred
+  File "processpPred.py", line 13, in keep_first_77_lines
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Jiaxiang\\Desktop\\pReLoc_all\\examples\\mod_xgbpPred\\pPred\\pFind-Filtered.spectra'
