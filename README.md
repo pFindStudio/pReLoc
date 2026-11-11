@@ -2,9 +2,19 @@
 
 A framework for site-level confidence assessment in proteomics, supporting amino-acid site scoring and modification-site localization with XGBoost or contrastive learning (CL).
 
-This Windows distribution combines both scoring backends in **`pReLoc.exe`**. 
+This Windows distribution combines both scoring backends in **`pReLoc.exe`**.
 
-This repository provides **compiled standalone software** together with a **small real demonstration dataset** (`examples/data_input.tsv` and `examples/dataMGF.mgf`, 100 peptide-spectrum matches). 
+This repository provides **compiled standalone software** together with a **small real demonstration dataset** (`examples/data_input.tsv` and `examples/dataMGF.mgf`, 100 peptide-spectrum matches, or **PSMs**). Each PSM links an identified peptide to a spectrum.
+
+## Start here
+
+1. **Download the application** using the [installation guide](#installation-guide), including its Git LFS files. Keep `pReLoc.exe` and `_internal/` together.
+2. **Choose a workflow** from the [template table](#choose-a-workflow). For a first run, use `examples/pReLocparam_mod_xgb.txt` with the small example dataset.
+3. **Edit a copy of the parameter file:** update the input paths and `OutputFolderPath` for your computer, and create the output folder. The [demo setup](#demo-modification-localization) can prepare these paths automatically.
+4. **If using CL**, first [download the ESM2 model](#download-the-esm2-model-for-cl) into `_internal/`. Ordinary XGBoost runs do not need this download.
+5. **Double-click `pReLoc.exe`**, enter the full path to your edited parameter file, and press Enter. See [Run pReLoc](#run-preloc) for both double-click and command-line instructions.
+6. **Open the configured output folder.** Start with `pReLocRes.tsv`; see [Read the results](#read-the-results) for the difference between scored, FLR-filtered, and directly assigned results.
+
 ## System requirements and tested versions
 
 ### Operating system and hardware
@@ -156,6 +166,38 @@ Network transfer time is additional. For 14.95 GB including the separate ESM2 do
 
 Use 64-bit Windows and keep the complete application directory, including `_internal/`, together. A separate Python installation is not required. This packaged CL runtime uses CPU PyTorch and reads its ESM2 weights locally. Allow several minutes for a complete CL example on CPU, plus disk space for analysis results.
 
+## Run pReLoc
+
+### Option 1: double-click the executable
+
+You can run pReLoc without opening PowerShell:
+
+1. Prepare and save your parameter file. Check its input paths, selected model, and output folder. Create the output folder if it does not exist.
+2. In Windows File Explorer, **double-click `pReLoc.exe`**. A console window opens.
+3. When asked for the parameter-file path, paste its **full path**, for example `C:\tools\pReLoc\examples\my_mod_xgb.txt`, and press **Enter**. The file must be your saved configuration; the example path is not created automatically.
+4. Wait for the analysis to finish. Check any messages in the console, then open the folder specified by `OutputFolderPath` to view the results.
+5. Press **Enter** at the final prompt to close the window.
+
+The backend is selected by `[score] model=XGBoost` or `model=CL` in the parameter file. CL requires the separately downloaded ESM2 checkpoint before starting.
+
+### Option 2: use the command line
+
+Open PowerShell in the folder containing `pReLoc.exe`:
+
+```powershell
+.\pReLoc.exe "C:\analysis\my_parameters.txt"
+```
+
+You can override the model for one run or display help:
+
+```powershell
+.\pReLoc.exe "C:\analysis\my_parameters.txt" --model CL
+.\pReLoc.exe "C:\analysis\my_parameters.txt" --model XGBoost
+.\pReLoc.exe --help
+```
+
+`--model` takes priority over the parameter-file setting. Older parameter files without a `model` entry use XGBoost. Command-line runs with a parameter-file argument exit automatically; a failed run returns a nonzero exit code. Starting the executable without that argument uses the same interactive prompts as double-clicking it.
+
 ## Demo: modification localization
 
 The small real dataset is `examples/data_input.tsv` (100 identifications) with matching `examples/dataMGF.mgf` spectra. The following setup prepares both demos and redirects their outputs away from the supplied reference results. Open PowerShell in this application's root directory and run:
@@ -189,15 +231,7 @@ For CL, first complete **Download the ESM2 model for CL** above, then run:
 
 The original templates contain absolute paths from the packaging machine. The preparation commands above replace that prefix with your checkout path and create new output directories. If you edit parameters manually, update every enabled input/model path and `OutputFolderPath` yourself. Re-running a configuration can replace its prior results.
 
-You can also double-click `pReLoc.exe` and enter the full parameter-file path at the prompt. With no command-line parameter file, the application waits for Enter at completion. Command-line runs exit automatically; a failed run returns a nonzero exit code.
-
-```powershell
-.\pReLoc.exe --help
-.\pReLoc.exe "C:\analysis\param.txt" --model CL
-.\pReLoc.exe "C:\analysis\param.txt" --model XGBoost
-```
-
-`--model` overrides the parameter-file backend for that run. Otherwise, `[score] model=XGBoost` or `model=CL` selects it; older files without `model` default to XGBoost.
+To run either prepared demo by double-clicking, start `pReLoc.exe` and enter the full path to `examples/demo_mod_xgb.txt` or `examples/demo_mod_cl.txt` in your installation folder.
 
 ### Expected demo output and run time
 
@@ -212,7 +246,7 @@ The table below reports a single validation run on the reference desktop describ
 
 For planning on a similar desktop, allow roughly **15–30 seconds for XGBoost** and **2–5 minutes for CL** for this demo. These ranges are guidance based on the measured run and the packaged example timings, rather than a multi-machine benchmark.
 
-Successful command-line runs return exit code `0`. `Time.txt` must include `Full Process`, and the main result should contain the localization/FLR columns described below. `DirectRes.tsv` is header-only for this demo because no input is assigned to the unique-combination output. Row counts exclude the header; the filtered result can differ between the XGBoost and CL models. Floating-point results may vary across machines.
+Successful command-line runs return exit code `0`. `Time.txt` must include `Full Process`, and the main result should contain the localization/FLR columns described below. `DirectRes.tsv` contains only its header in this demo: none of the input PSMs has just one allowed placement of the target modifications. Row counts exclude the header; the filtered result can differ between the XGBoost and CL models. Floating-point results may vary across machines.
 
 The demonstration does not validate the optional pPred or pChem workflows. Their templates and usage are included below, but no runtime claim is made for those workflows.
 
@@ -343,12 +377,24 @@ Prediction-derived features are calculated and combined in memory. `Candidates_p
 
 ## Read the results
 
+For modification localization, pReLoc separates records that need model scoring from records whose modification positions are already fixed by the configured rules. The output files have different meanings:
+
 | File | Contents |
 | --- | --- |
-| `pReLocRes.tsv` | Main site-scoring or localization result. |
-| `pReLocRes-filtered.tsv` | FLR-filtered localization results, when enabled. |
-| `DirectRes.tsv` | Unique localization combinations, kept separately from model scoring and FLR. |
+| `pReLocRes.tsv` | Model-scored results. In localization mode, these are PSMs with alternative allowed placements of the target modifications. |
+| `pReLocRes-filtered.tsv` | Scored localization results that pass the configured FLR threshold, when filtering is enabled. |
+| `DirectRes.tsv` | PSMs with only one allowed placement of the target modifications under the configured rules. These are written directly, without model scoring or FLR estimation. |
 | `Time.txt` | Stage timings; a completed run includes `Full Process`. |
+
+### What does `DirectRes.tsv` mean?
+
+The program checks the allowed modification sites and the number of target modifications for each PSM, taking account of positions already occupied by other modifications. If these rules leave **only one possible assignment**, there are no alternative positions for the localization model to compare, so that PSM is written to `DirectRes.tsv`.
+
+For example, suppose a peptide has **one phosphorylation**, the configuration allows phosphorylation on **S, T, or Y**, and the peptide has **only one available S/T/Y residue**. That residue is the only allowed location, so the PSM is reported directly. One possible assignment can also involve multiple modified residues.
+
+`DirectRes.tsv` contains `spec_name`, `seq`, `ori_mod`, `mod`, and `scoremodsite_num`. It has **no model-derived confidence score or estimated FLR**. Keep these directly assigned records separate when reporting results that passed an FLR threshold; an absent FLR does not mean an estimated FLR of zero. If every input PSM has only one allowed assignment, the main result table contains only its header.
+
+### Columns in the scored results
 
 Site-scoring results contain `spec_name`, `seq`, `mod` and `pSite2_score`; multiple site scores are comma-separated. Localization results include:
 
@@ -362,7 +408,7 @@ Site-scoring results contain `spec_name`, `seq`, `mod` and `pSite2_score`; multi
 | `ori_pReLocScore`, `pReLocScore` | Original and selected localization scores. |
 | `FLR` | Estimated FLR in percent, when enabled. |
 
-When a decoy wins the competition, the retained best target has no assigned FLR and does not enter the filtered result. Unique combinations remain in `DirectRes.tsv`; an all-direct input produces a header-only main result. XGBoost and CL values are not calibrated to the same score scale.
+When a decoy wins the competition, the retained best target has no assigned FLR and does not enter the filtered result. XGBoost and CL values are not calibrated to the same score scale.
 
 ## Troubleshooting
 
