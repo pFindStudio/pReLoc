@@ -51,21 +51,15 @@ def balance_train_data(train_data, random_state=42):
 
 
 def main():
-    data = pd.read_csv("D:\\pSite_final\\DATA\\pho-138\\pLocate_Phosites.tsv", sep="\t")
+    data = pd.read_csv("pLocate_Phosites.tsv", sep="\t")
     train_data, val_data, test_data = split_by_peptide(data)
     # Balance only the training split after grouping peptides.
     # Preserve the original validation and test distributions.
     train_data = balance_train_data(train_data)
 
-    train_data.to_csv(
-        "D:\\pSite_final\\DATA\\pho-138\\train_pLocate_Phosites.tsv", sep="\t", index=False
-    )
-    val_data.to_csv(
-        "D:\\pSite_final\\DATA\\pho-138\\val_pLocate_Phosites.tsv", sep="\t", index=False
-    )
-    test_data.to_csv(
-        "D:\\pSite_final\\DATA\\pho-138\\test_pLocate_Phosites.tsv", sep="\t", index=False
-    )
+    train_data.to_csv("train_pLocate_Phosites.tsv", sep="\t", index=False)
+    val_data.to_csv("val_pLocate_Phosites.tsv", sep="\t", index=False)
+    test_data.to_csv("test_pLocate_Phosites.tsv", sep="\t", index=False)
 
     for name, subset in (("Train", train_data), ("Validation", val_data), ("Test", test_data)):
         print(
